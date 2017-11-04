@@ -1,5 +1,11 @@
 {-# LANGUAGE ExistentialQuantification #-}
 
+-- TODO: splitを使おう
+-- TODO: this@
+-- TODO: treeを返すようにしよう
+-- TODO: treeにmapはできないけどfmapはできる！
+-- TODO: ツリー生成部分とdataは分ける
+
 module Nested where
 
 import NameDB (german_all)
