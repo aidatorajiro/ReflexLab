@@ -1,0 +1,32 @@
+.selectList {
+    user-select: none;
+    cursor: default;
+    font-size: 12px;
+}
+.selectList .item {
+    padding: 0px;
+    margin: 12px;
+}
+.button {
+    width: 10px;
+    height:10px;
+    background: white;
+    border: 1px gray solid;
+    display: inline-block;
+    margin-right: 0.5em;
+}
+.selectList .button.enabled {
+    background: black;
+}
+.selectList .item:hover .button, .tree .label:hover .button {
+    padding-right: 4px;
+}
+.tree .button.enabled {
+    background: black;
+}
+.tree .childs {
+    padding-left: 1em;
+}
+.tree .childs.none {
+    display: none;
+}

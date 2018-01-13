@@ -1,0 +1,17 @@
+body {
+    color: #333;
+}
+#selectModule, #selectModuleTogglable, #treeModule {
+    margin: 1em;
+    padding: 1em;
+    border: 1px #324 solid;
+    border-radius: 4px;
+    display: inline-block;
+    vertical-align: top;
+}
+#selectModule {
+    border: 1px #324 solid;
+}
+#treeModule {
+    border: 1px #9817b2 solid;
+}
