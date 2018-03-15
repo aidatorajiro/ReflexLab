@@ -1,0 +1,19 @@
+sudo: true
+language: generic
+cache:
+  directories:
+  - "/nix"
+before_install:
+- yes | head -c 100 | reflex-platform/try-reflex --command "exit 0"
+- ". /home/travis/.nix-profile/etc/profile.d/nix.sh"
+install:
+- nix-build
+- zip -rj ReflexLab.zip ./result/ghcjs/frontend/bin/ReflexLab-exe.jsexe
+deploy:
+  skip_cleanup: true
+  provider: releases
+  api_key:
+    secure: Xc/lYgqZFd0V9gBRS2BpMUtiVGACHLWitIGkCz/9foulEpWQ4Vl/jX67lo45knwSkJrgT/PlKiJ1yQCLdz3L9PiVLYg344pJYzthlmE0/6EPe1UOnDgwtIU60e1HiezzuPEgJBKSMGAYikuVboYxTWkSkFfFSrNQAkYRiTZaBJi1eqwSUg6zwFkd+wlvFUJuQVYxqZj7tlZylfIQgHdIwLHAb0HIE8nYPnhA2cBhmULao3arq4uJ9A5cXS47OPkpgdBBaLjDK3z6on7zlPz90BO0et4Pn6EzocY1k5mN+kdSYm5978bBI1NMduBo8rIzwHVlO12+TDb/1kd9OG++TaG2F9R7VrhdMlPyFQZpG8wIeegF3tMHIT3xTzOGchzDNHi4xoH/6YRh5UjXnx9cG2cs1hZlVitND3y3PKZnPlB5Xykf1OCIQP7wk3GsHyUV+lbYVBMKYM4jatECI6E8JzbKHxzxXpj4MYp0sw+nvoTFniFlfME6lcM2OnNDnVx8ZgoufrFrSecrBGxsrs05nL5J1fv+vKo7ztI1IyETV348hQDYzb6O03X36dHQFnGey29IzV3NuaU+6/XrCXh2cWenBCLWkM7yq4+tKp0oSuQklIgQg8fB0fDf8uDNyS362ikBytMnVHyMgeJ+9MqFVWxlPybKtSntxo4sGR0t5FA=
+  file: ReflexLab.zip
+  on:
+    repo: aidatorajiro/RDWP

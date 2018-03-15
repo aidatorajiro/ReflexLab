@@ -8,6 +8,7 @@ import qualified LibReflex (makeStyle)
 import LibReflex hiding (makeStyle)
 import qualified Nested as N
 
+import Control.Monad.Trans ( liftIO )
 import qualified Data.Map as M
 import qualified Data.Text as T
 import Data.Tree (unfoldTree)
@@ -23,7 +24,7 @@ makeStyle = el "style" $ text $ decodeUtf8 $(embedFile "assets/css/Lib.css")
 
 selectModule :: MonadWidget t m => m ()
 selectModule = elId "div" "selectModule" $ do
-    elAttr "h1" (M.fromList [("style", "margin-top: 0;")]) $ text "select module #1"
+    elAttr "h1" (M.singleton ("style", "margin-top: 0;")) $ text "select module #1"
 
     item <- selectListValue ["aaaaa", "bbbbb", "aiueo", "kakikukeko"]
 
@@ -39,7 +40,7 @@ selectModule = elId "div" "selectModule" $ do
 
 selectModuleTogglable :: MonadWidget t m => m ()
 selectModuleTogglable = elId "div" "selectModuleTogglable" $ do
-    elAttr "h1" (M.fromList [("style", "margin-top: 0;")]) $ text "select module #2"
+    elAttr "h1" (M.singleton ("style", "margin-top: 0;")) $ text "select module #2"
 
     item <- selectListTogglableValue ["aaaaa", "bbbbb", "aiueo", "kakikukeko"]
 
@@ -47,10 +48,12 @@ selectModuleTogglable = elId "div" "selectModuleTogglable" $ do
 
     return ()
 
-treeModule :: MonadWidget t m => Int -> m ()
-treeModule seed = elId "div" "treeModule" $ do
+treeModule :: MonadWidget t m => m ()
+treeModule = elId "div" "treeModule" $ do
 
-    elAttr "h1" (M.fromList [("style", "margin-top: 0;")]) $ text "tree module"
+    seed <- liftIO (getStdRandom $ random :: IO Int)
+
+    elAttr "h1" (M.singleton ("style", "margin-top: 0;")) $ text "tree module"
 
     let init_ext = N.Universe seed (N.E init_ext)
 
@@ -58,13 +61,22 @@ treeModule seed = elId "div" "treeModule" $ do
 
     return ()
 
+-- probabilistic cellular automata
+pcaModule :: MonadWidget t m => m ()
+pcaModule = elId "div" "pcaModule" $ do
+
+    seed <- liftIO (getStdRandom $ random :: IO Int)
+
+    elAttr "h1" (M.singleton ("style", "margin-top: 0;")) $ text "PCA module"
+
+    pca seed
+
 startApp :: IO ()
-startApp = do
-    seed <- (getStdRandom $ random :: IO Int)
-    mainWidget $ do
-        LibReflex.makeStyle
-        makeStyle
-        selectModule
-        selectModuleTogglable
-        treeModule seed
-        return ()
+startApp = mainWidget $ do
+    LibReflex.makeStyle
+    makeStyle
+    selectModule
+    selectModuleTogglable
+    treeModule
+    pcaModule
+    return ()

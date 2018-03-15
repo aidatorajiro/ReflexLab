@@ -11,6 +11,7 @@ import Data.Text.Encoding (decodeUtf8)
 import Data.Tree
 import LibTree (treeAt)
 import Reflex.Dom
+import Control.Monad (replicateM)
 import Data.Maybe (isNothing, fromJust)
 import Safe (atMay)
 import Data.FileEmbed (embedFile)
@@ -107,6 +108,21 @@ drawTreeMain tree pos = mdo
 
     return ()
 
+-- | Returns a random value of given range and given init gen as a Dunamic
+randomRDyn :: (Random a, RandomGen g, MonadWidget t m) => (a, a) -> g -> Event t b -> m (Dynamic t a, Dynamic t g)
+randomRDyn range initGen ev = splitDynPure <$> foldDyn (\_ (_, g) -> randomR range g) (randomR range initGen) ev
+
+type Rule = (Double, Double, Double, Double, Double, Double, Double, Double)
+
+-- | Probabilistic Cellular Automata
+pca :: MonadWidget t m => Int -> Rule -> m ()
+pca seed (a, b, c, d, e, f, g, h) = do
+    inputs <- replicateM 5 btn
+    now <- liftIO getCurrentTime
+    tickev <- tickLossy 0.01 now
+    random <- randomRDyn (0, 1)
+
+-- | <br> tag
 br :: MonadWidget t m => m ()
 br = el "br" $ do
     return ()
